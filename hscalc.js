@@ -256,7 +256,7 @@
 		let totalExp = 0;
 
 		for (let i = currentLevel; i < goalLevel; i++) {
-			if (i > 80) {
+			if (i > 130) {
 				expAdd = 1500;
 			}
 			else {
@@ -282,23 +282,26 @@
 		return totalExp;
 	}
 	
-	function calculateRewards(currentLevel, goalLevel) {
+	function calculateRewards(currentLevel, goalLevel, rewardPass) {
 		let reward = {
 			gold: 0,
 			other: []
 		};
 		
 		for (let i = currentLevel + 1; i <= goalLevel; i++) {
-			if (i > 50) {
-				reward.gold += rewards[51].gold;
-				if (i == 350) {
-					reward.other.push("Level: 350 get: How on earth");
+			if (i > 100) {
+				reward.gold += rewards[101].gold;
+				if (i == 400) {
+					reward.other.push("Level: 400 get: How on earth");
 				}
 			}
 			else {
 				reward.gold += rewards[i].gold;
 				if (rewards[i].other !== null) {
 					reward.other.push("Level: " + i + " get: " + rewards[i].other);
+				}
+				if ((rewardPass) && (rewards[i].tavern !== null)) {
+					reward.other.push("Level: " + i + " get: " + rewards[i].tavern);
 				}
 			}
 
@@ -376,7 +379,7 @@
 		}
 		
 		let result = calculate(currentLevel, goalLevel, currentExp, rewardPass);
-		let reward = calculateRewards(currentLevel, goalLevel);
+		let reward = calculateRewards(currentLevel, goalLevel, rewardPass);
 		// console.log(reward);
 		
 		let d;
