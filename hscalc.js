@@ -263,10 +263,10 @@
 				expAdd = expNeeded[i];
 			}
 			if (rewardPass) {
-				if (i >= 35) {
+				if (i >= 70) {
 					expAdd /= 1.2;
 				}
-				else if (i >= 10) {
+				else if (i >= 20) {
 					expAdd /= 1.15;
 				}
 				else {
