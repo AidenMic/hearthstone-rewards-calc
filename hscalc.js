@@ -1,3 +1,9 @@
+const maxLevel = 400;
+const tavern10 = 1;
+const tavern15 = 20;
+const tavern20 = 70;
+const expNeededTop = 130;
+const rewardTop = 101;
 	const expNeeded = [
 	/* 0	*/	0,
 	/* 1	*/	100,
@@ -233,8 +239,7 @@
 	/* 97	*/	{gold: 150, 	other: null,	tavern: null},
 	/* 98	*/	{gold: 150, 	other: null,	tavern: null},
 	/* 99	*/	{gold: 150, 	other: null,	tavern: null},
-	/* 100	*/	{gold: 0,		other: "1 Hero Skin",	tavern: "Trainer Kurtrus Hero Skin (Demon Hunter), Lightweaver Xyrella Hero Skin (Priest), Rokara of the Horde Hero Skin (Warrior)"
-},
+	/* 100	*/	{gold: 0,		other: "1 Hero Skin",	tavern: "Trainer Kurtrus Hero Skin (Demon Hunter), Lightweaver Xyrella Hero Skin (Priest), Rokara of the Horde Hero Skin (Warrior)"},
 	/* 101	*/	{gold: 50,		other: null,	tavern: null}
 	];
 	
@@ -256,17 +261,20 @@
 		let totalExp = 0;
 
 		for (let i = currentLevel; i < goalLevel; i++) {
-			if (i > 130) {
-				expAdd = 1500;
+			if (i > maxLevel) {
+				break;
+			}
+			if (i > expNeededTop) {
+				expAdd = expNeeded[expNeededTop];
 			}
 			else {
 				expAdd = expNeeded[i];
 			}
 			if (rewardPass) {
-				if (i >= 70) {
+				if (i >= tavern20) {
 					expAdd /= 1.2;
 				}
-				else if (i >= 20) {
+				else if (i >= tavern15) {
 					expAdd /= 1.15;
 				}
 				else {
@@ -289,10 +297,13 @@
 		};
 		
 		for (let i = currentLevel + 1; i <= goalLevel; i++) {
-			if (i > 100) {
-				reward.gold += rewards[101].gold;
-				if (i == 400) {
-					reward.other.push("Level: 400 get: How on earth");
+			if (i > maxLevel) {
+				break;
+			}
+			if (i > rewardTop) {
+				reward.gold += rewards[rewardTop].gold;
+				if (i == maxLevel) {
+					reward.other.push("Level: " + maxLevel +" get: How on earth");
 				}
 			}
 			else {
@@ -369,9 +380,9 @@
 		// console.log(resultSpot);
 		// console.log(error);
 		
-		if (goalLevel > 350) {
-			goalLevel = 350;
-			error.innerHTML = "Whoa calm down, they don't let you get past level 350...";
+		if (goalLevel > maxLevel) {
+			goalLevel = maxLevel;
+			error.innerHTML = "Whoa calm down, they don't let you get past level " + maxLevel + "...";
 		}
 		if ((goalLevel < currentLevel) || (goalLevel < 1) || (currentLevel < 0)) {
 			error.innerHTML = "Hey wait just one second here";
@@ -398,7 +409,13 @@
 		tomorrow.setDate(tomorrow.getDate() + 1);
 		goalDay.setDate(goalDay.getDate() + (maxTimeTilGoal.exactWeeks * 7) + maxTimeTilGoal.exactDays);
 		
-		resultSpot.innerHTML = "Result Spot: " + result.toFixed(0) + " needed exp; Max time to complete with quests: " + maxTimeTilGoal.approximateWeeks.toFixed(2) + " weeks. Or specifically " + maxTimeTilGoal.exactWeeks + " weeks and " + maxTimeTilGoal.exactDays + " days or (" + goalDay.toLocaleDateString() + ") if you complete all quests starting with the quest(s) you get on " + tomorrow.toLocaleDateString();
+		resultSpot.innerHTML = "Result Spot: " + result.toFixed(0) + 
+			" needed exp; Max time to complete with quests: " + 
+			maxTimeTilGoal.approximateWeeks.toFixed(2) + " weeks. Or specifically " + 
+			maxTimeTilGoal.exactWeeks + " weeks and " + maxTimeTilGoal.exactDays + 
+			" days or (" + goalDay.toLocaleDateString() + 
+			") if you complete all quests starting with the quest(s) you get on " + 
+			tomorrow.toLocaleDateString();
 		
 		
 		goldRewards.innerHTML = "Amount of Gold Earned: " + reward.gold;
