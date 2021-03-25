@@ -336,7 +336,7 @@ const rewardTop = 101;
 		let lastDay = currentDay;
 		for (let i = currentDay; ((i < 7) && (i != 0)); i++) {
 			lastDay++;
-			questExp += 900;
+			questExp += dailyExp;
 			// console.log("Part 1 | Last Day: " + lastDay + "; questExp: " + questExp);
 			if (questExp >= neededExp) {
 				break;
